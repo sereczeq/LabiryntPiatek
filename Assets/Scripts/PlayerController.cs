@@ -6,8 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 12f;
     public float gravity = -10;
-    Vector3 downVelocity; //służy do obliczania brędkości w dół
     CharacterController characterController;
+
+    //sprawdzanie ziemi
+    private Vector3 downVelocity; //służy do obliczania brędkości w dół
+    public Transform groundCheck; //miejsce na obiekt do sprawdzania
+    public LayerMask groundMask; //grupa obiektów, które będą warstwą uznawaną za podłogę
+    bool isGrounded;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +30,9 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.right * x + transform.forward * z;
 
-        characterController.Move(move.normalized * speed * Time.deltaTime);
+        if (move.magnitude > 1) move = move.normalized;
+
+        characterController.Move(move * speed * Time.deltaTime);
 
         // jest to rozwiązanie na szybko
         //TODO: zmienić to na kolejnych lekcjach

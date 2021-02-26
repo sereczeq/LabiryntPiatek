@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public int timeToEnd;
     public bool isGamePaused = false;
+    public bool win = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,7 @@ public class GameManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P))
         {
             //jeżeli gra jest zatrzymana to wznów, jeżeli wznowiona to zatrzymaj
-            togglePause();
+            TogglePause();
         }
     }
 
@@ -36,12 +37,12 @@ public class GameManager : MonoBehaviour
         timeToEnd--; // odejmij 1 od timeToEnd
         if (timeToEnd < 0)
         {
-            Debug.Log("Koniec gry");
+            EndGame();
         }
         Debug.Log("Time: " + timeToEnd + " s");
     }
 
-    private void togglePause()
+    private void TogglePause()
     {
         if(isGamePaused)
         {
@@ -54,6 +55,21 @@ public class GameManager : MonoBehaviour
             Debug.Log("Pause game");
             Time.timeScale = 0f;
             isGamePaused = true;
+        }
+    }
+
+    private void EndGame()
+    {
+        CancelInvoke("Stopper");
+        if(win)
+        {
+            Debug.Log("You won");
+            //TODO: wyświetl faktyczny napis na ekranie
+        }
+        else
+        {
+            Debug.Log("You lost");
+            //TODO: wyświetl faktyczny napis na ekranie
         }
     }
 
