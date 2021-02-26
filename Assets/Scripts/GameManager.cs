@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
             //jeżeli gra jest zatrzymana to wznów, jeżeli wznowiona to zatrzymaj
             TogglePause();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape) && isGamePaused)
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
     }
 
     private void Stopper()

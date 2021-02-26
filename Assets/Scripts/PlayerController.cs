@@ -9,11 +9,10 @@ public class PlayerController : MonoBehaviour
     CharacterController characterController;
 
     //sprawdzanie ziemi
-    private Vector3 downVelocity; //służy do obliczania brędkości w dół
-    public Transform groundCheck; //miejsce na obiekt do sprawdzania
-    public LayerMask groundMask; //grupa obiektów, które będą warstwą uznawaną za podłogę
+    private Vector3 downVelocity;   //służy do obliczania brędkości w dół
+    public Transform groundCheck;   //miejsce na obiekt do sprawdzania
+    public LayerMask groundMask;    //grupa obiektów, które będą warstwą uznawaną za podłogę
     bool isGrounded;
-
 
 
     // Start is called before the first frame update
@@ -25,6 +24,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Move();
+        Gravity();
+    }
+
+    private void Move()
+    {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -33,10 +38,23 @@ public class PlayerController : MonoBehaviour
         if (move.magnitude > 1) move = move.normalized;
 
         characterController.Move(move * speed * Time.deltaTime);
+    }
 
-        // jest to rozwiązanie na szybko
-        //TODO: zmienić to na kolejnych lekcjach
+    private void Gravity()
+    {
         downVelocity.y += gravity * Time.deltaTime;
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundMask);
+        if (isGrounded && downVelocity.y < 0)
+        {
+            downVelocity.y = -2;
+        }
+
         characterController.Move(downVelocity * Time.deltaTime);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(groundCheck.position, 0.2f);
     }
 }
