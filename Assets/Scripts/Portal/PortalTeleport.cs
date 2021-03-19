@@ -27,6 +27,8 @@ public class PortalTeleport : MonoBehaviour
             player.position = receiver.position + positionOffset;
 
             playerIsOverlapping = false;
+
+            Debug.Log("Teleportuje");
         }
 
 
