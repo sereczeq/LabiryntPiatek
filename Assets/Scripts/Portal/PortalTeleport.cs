@@ -7,7 +7,6 @@ public class PortalTeleport : MonoBehaviour
     public Transform player;
     public Transform receiver;
     private bool playerIsOverlapping = false;
-
     private void FixedUpdate()
     {
         //je¿eli gracz nie jest w portalu to nic nie rób

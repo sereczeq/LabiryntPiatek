@@ -20,6 +20,11 @@ public class PlayerController : MonoBehaviour
     public float fastSpeed = 20f;
     public float slowSpeed = 5f;
 
+    //zmiana skoku
+    public float jumpForce = 5;
+    public float defaultJumpForce = 5;
+    public float highJumpForce = 20;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,8 +56,12 @@ public class PlayerController : MonoBehaviour
                 case "SlowGround":
                     speed = slowSpeed;
                     break;
+                case "HighGround":
+                    jumpForce = highJumpForce;
+                    break;
                 default:
                     speed = defaultSpeed;
+                    jumpForce = defaultJumpForce;
                     break;
             }
         }
@@ -70,6 +79,7 @@ public class PlayerController : MonoBehaviour
         characterController.Move(move * speed * Time.deltaTime);
     }
 
+
     private void Gravity()
     {
         downVelocity.y += gravity * Time.deltaTime;
@@ -77,6 +87,10 @@ public class PlayerController : MonoBehaviour
         if (isGrounded && downVelocity.y < 0)
         {
             downVelocity.y = -2;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            downVelocity.y = jumpForce;
         }
 
         characterController.Move(downVelocity * Time.deltaTime);
